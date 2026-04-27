@@ -3,41 +3,23 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pizza AR</title>
+    <title>3D Menu</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </head>
-<body style="margin: 0; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; text-align: center;">
+<body style="margin: 0; background: #000;">
 
-    <div>
-        <p>🍕 <b>Модель загружается...</b></p>
-        <p>Если камера не открылась автоматически,<br>нажмите на кнопку:</p>
-        <a id="ar-link" href="#" style="display: inline-block; padding: 15px 25px; background: white; color: black; text-decoration: none; border-radius: 30px; font-weight: bold; margin-top: 20px;">ОТКРЫТЬ В AR</a>
-    </div>
+    <model-viewer 
+        src="pizza.glb" 
+        ios-src="PIZZA.usdz"
+        ar ar-modes="scene-viewer quick-look webxr" 
+        camera-controls auto-rotate shadow-intensity="1"
+        style="width: 100vw; height: 100vh;">
+        
+        <button slot="ar-button" style="background: white; border-radius: 30px; border: none; padding: 15px 35px; font-weight: bold; position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); font-size: 18px;">
+            ПОСМОТРЕТЬ НА СТОЛЕ
+        </button>
+        
+    </model-viewer>
 
-    <script>
-        window.onload = () => {
-            const isiPhone = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
-            
-            // Определяем адрес вашего сайта автоматически
-            const currentUrl = window.location.href.split('?')[0].split('#')[0];
-            const baseUrl = currentUrl.endsWith('/') ? currentUrl : currentUrl + '/';
-
-            // ВАЖНО: названия файлов точно как в вашем GitHub
-            const glbFile = baseUrl + "pizza.glb";   // маленькими
-            const usdzFile = baseUrl + "PIZZA.usdz"; // заглавными
-
-            const arLink = document.getElementById('ar-link');
-
-            if (isiPhone) {
-                arLink.href = usdzFile;
-                arLink.rel = "ar";
-                window.location.href = usdzFile;
-            } else {
-                // Прямая ссылка для Android Scene Viewer
-                const intent = `intent://arvr.google.com/scene-viewer/1.0?file=${glbFile}&mode=ar_only#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;`;
-                arLink.href = intent;
-                window.location.href = intent;
-            }
-        };
-    </script>
 </body>
 </html>
